@@ -1,0 +1,6 @@
+syntax = "proto3";
+package sensor;
+
+message WindSpeed{
+    float value_mps = 1;
+}

@@ -35,6 +35,33 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+# 新增：把 windvel.cpp 编译成一个节点，可随意取名
+add_executable(windvel_listen_node windvel_listen.cpp)
+
+# 让它在 traits/serialization 拷贝完成后再编译（和 pb_talker 一样）
+add_dependencies(windvel_listen_node copy_traits_files copy_serialization_files)
+
+# 关键链接：pb_proto 会把生成的 wind_vel.pb.cc/.h 和 include 路径 PUBLIC 传递给此目标
+target_link_libraries(windvel_listen_node
+  ${roscpp_LIBRARIES}
+  pb_proto
+  roscpp_proto_serialization
+)
+
+# 新增：把 windvel.cpp 编译成一个节点，可随意取名
+add_executable(windvel_node windvel.cpp)
+
+# 让它在 traits/serialization 拷贝完成后再编译（和 pb_talker 一样）
+add_dependencies(windvel_node copy_traits_files copy_serialization_files)
+
+# 关键链接：pb_proto 会把生成的 wind_vel.pb.cc/.h 和 include 路径 PUBLIC 传递给此目标
+target_link_libraries(windvel_node
+  ${roscpp_LIBRARIES}
+  pb_proto
+  roscpp_proto_serialization
+)
+
+
 add_executable(pb_talker pb_talker.cpp
 )
 
